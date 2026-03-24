@@ -2,6 +2,19 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY")!;
 const FROM = "StandAId <hello@standaid.ai>";
+const NOTIFY = "hello@standaid.ai";
+
+async function sendEmail(to: string, subject: string, html: string) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ from: FROM, to: [to], subject, html }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+}
 
 serve(async (req) => {
   try {
@@ -15,17 +28,9 @@ serve(async (req) => {
       });
     }
 
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: FROM,
-        to: [email],
-        subject: "You're on the StandAId waitlist",
-        html: `
+    await Promise.all([
+      // Welcome email to the new signup
+      sendEmail(email, "You're on the StandAId waitlist", `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,18 +113,17 @@ serve(async (req) => {
   </table>
 </body>
 </html>
-        `.trim(),
-      }),
-    });
+        `.trim()),
 
-    if (!res.ok) {
-      const err = await res.text();
-      console.error("Resend error:", err);
-      return new Response(JSON.stringify({ error: err }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+      // Notification email to you
+      sendEmail(NOTIFY, `New waitlist signup: ${email}`, `
+        <div style="font-family:Arial,sans-serif;padding:32px;max-width:480px;">
+          <h2 style="color:#1D1D1F;margin:0 0 16px;">New waitlist signup</h2>
+          <p style="color:#86868B;margin:0 0 8px;">Someone just joined the StandAId waitlist.</p>
+          <p style="font-size:18px;font-weight:600;color:#DC2626;margin:16px 0;">${email}</p>
+        </div>
+      `),
+    ]);
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

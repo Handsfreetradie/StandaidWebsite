@@ -483,7 +483,7 @@ function HeroChatMockup() {
   );
 }
 
-function Hero() {
+function Hero({ count }: { count: number }) {
   return (
     <section className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden px-6 pt-28 pb-20 text-center">
       {/* Kinso-style gradient orbs */}
@@ -534,7 +534,7 @@ function Hero() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.8 }}
       >
-        Join <span style={{ color: ACCENT }}><CountUp target={1247} duration={2.5} /></span> others already on the waitlist
+        Join <span style={{ color: ACCENT }}><CountUp target={count} duration={2.5} /></span> others already on the waitlist
       </motion.p>
 
       {/* App mockup with typing animation */}
@@ -765,7 +765,7 @@ function HowItWorks() {
 
 /* ───── WAITLIST ───── */
 
-function Waitlist() {
+function Waitlist({ count, onSignup }: { count: number; onSignup: () => void }) {
   const [email, setEmail] = useState("");
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -789,6 +789,7 @@ function Waitlist() {
       }
     } else {
       setDone(true);
+      onSignup();
     }
   };
 
@@ -840,7 +841,7 @@ function Waitlist() {
           )}
         </Reveal>
         <Reveal delay={0.25}>
-          <p className="text-xs" style={{ color: MUTED }}>Join 1,247 others already on the waitlist</p>
+          <p className="text-xs" style={{ color: MUTED }}>Join {count.toLocaleString()} others already on the waitlist</p>
         </Reveal>
       </div>
     </section>
@@ -939,6 +940,15 @@ function Footer() {
 /* ───── APP ───── */
 
 export default function App() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    supabase
+      .from("waitlist")
+      .select("*", { count: "exact", head: true })
+      .then(({ count: c }) => { if (c !== null) setCount(c); });
+  }, []);
+
   return (
     <div className="min-h-screen relative" style={{ background: `linear-gradient(to right, #FFFFFF, #FFF5F5)`, fontFamily: "'Inter', sans-serif" }}>
       {/* Noise texture overlay */}
@@ -962,13 +972,13 @@ export default function App() {
         }}
       />
       <Nav />
-      <Hero />
+      <Hero count={count} />
       <Statement />
       <Marquee />
       <Features />
       <Bento />
       <HowItWorks />
-      <Waitlist />
+      <Waitlist count={count} onSignup={() => setCount((c) => c + 1)} />
       <FAQs />
       <Footer />
     </div>
