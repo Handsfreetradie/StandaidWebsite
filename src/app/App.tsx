@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Routes, Route, Link, useNavigate } from "react-router";
 import { motion, useInView, useMotionValue, useTransform, animate, AnimatePresence } from "motion/react";
 import {
   ArrowRight, Menu, X, ChevronDown, Mic,
@@ -919,11 +920,25 @@ function Footer() {
           <p className="text-sm" style={{ color: MUTED }}>AI-powered standards companion for tradies and engineers.</p>
         </div>
         <div className="flex flex-wrap justify-center gap-6">
-          {["Features", "Tools", "FAQs", "Terms of Use", "Privacy Policy"].map((l) => (
-            <a key={l} href="#" className="text-sm transition-colors" style={{ color: MUTED }}
+          {[
+            { label: "Features", href: "/#features" },
+            { label: "Tools", href: "/#tools" },
+            { label: "FAQs", href: "/#faqs" },
+          ].map(({ label, href }) => (
+            <a key={label} href={href} className="text-sm transition-colors" style={{ color: MUTED }}
               onMouseEnter={(e) => (e.currentTarget.style.color = DARK)}
               onMouseLeave={(e) => (e.currentTarget.style.color = MUTED)}
-            >{l}</a>
+            >{label}</a>
+          ))}
+          {[
+            { label: "Terms of Use", to: "/terms-of-use" },
+            { label: "Privacy Policy", to: "/privacy-policy" },
+            { label: "Disclaimer", to: "/disclaimer" },
+          ].map(({ label, to }) => (
+            <Link key={label} to={to} className="text-sm transition-colors" style={{ color: MUTED }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = DARK)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = MUTED)}
+            >{label}</Link>
           ))}
         </div>
         <div className="flex gap-4">
@@ -934,6 +949,325 @@ function Footer() {
       </div>
       <p className="mt-12 text-center text-xs" style={{ color: `${MUTED}88` }}>&copy; 2026 StandAId. All rights reserved.</p>
     </footer>
+  );
+}
+
+/* ───── LEGAL PAGE LAYOUT ───── */
+
+const NOISE_BG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`;
+
+function LegalPage({ title, children }: { title: string; children: React.ReactNode }) {
+  const navigate = useNavigate();
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  return (
+    <div className="min-h-screen relative" style={{ background: `linear-gradient(to right, #FFFFFF, #FFF5F5)`, fontFamily: "'Inter', sans-serif" }}>
+      <div className="pointer-events-none fixed inset-0 z-[99] opacity-[0.15]" style={{ backgroundImage: NOISE_BG }} />
+      <Nav />
+      <main className="relative z-10 mx-auto max-w-3xl px-6 pt-32 pb-24">
+        <button
+          onClick={() => navigate("/")}
+          className="mb-10 flex items-center gap-2 text-sm transition-colors"
+          style={{ color: MUTED }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = DARK)}
+          onMouseLeave={(e) => (e.currentTarget.style.color = MUTED)}
+        >
+          <ArrowRight size={14} style={{ transform: "rotate(180deg)" }} />
+          Back to home
+        </button>
+        <h1 className="mb-10 text-3xl font-semibold tracking-tight" style={{ color: DARK }}>{title}</h1>
+        <div className="flex flex-col gap-8" style={{ color: DARK }}>
+          {children}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+function LegalSection({ heading, children }: { heading: string; children: React.ReactNode }) {
+  return (
+    <section>
+      <h2 className="mb-3 text-base font-semibold" style={{ color: DARK }}>{heading}</h2>
+      <div className="text-sm leading-relaxed" style={{ color: MUTED }}>{children}</div>
+    </section>
+  );
+}
+
+function LegalList({ items }: { items: string[] }) {
+  return (
+    <ul className="mt-2 flex flex-col gap-1 pl-4">
+      {items.map((item, i) => (
+        <li key={i} className="flex gap-2">
+          <span style={{ color: ACCENT }}>—</span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/* ───── TERMS OF USE PAGE ───── */
+
+function TermsPage() {
+  return (
+    <LegalPage title="Terms of Use">
+      <p className="text-sm" style={{ color: MUTED }}>
+        <strong style={{ color: DARK }}>Effective Date:</strong> [EFFECTIVE DATE]&ensp;|&ensp;
+        <strong style={{ color: DARK }}>Entity:</strong> [ENTITY NAME] (ABN: [ABN])&ensp;|&ensp;
+        <strong style={{ color: DARK }}>Contact:</strong> [CONTACT EMAIL]
+      </p>
+      <div style={{ height: 1, background: BORDER }} />
+
+      <LegalSection heading="1. Acceptance of Terms">
+        <p>By accessing or using the StandAId platform ("Platform"), you agree to be bound by these Terms of Use, together with our Privacy Policy and Disclaimer (collectively, "Agreement"). If you do not agree, you must not use the Platform.</p>
+      </LegalSection>
+
+      <LegalSection heading="2. Nature of the Platform">
+        <p>The Platform provides AI-assisted tools for interacting with technical documents, including Australian Standards.</p>
+        <p className="mt-2">The Platform is a reference tool only. It is not a source of truth and must not be relied upon as such.</p>
+      </LegalSection>
+
+      <LegalSection heading="3. No Reliance and Verification Obligation">
+        <p>You must independently verify all information obtained through the Platform against current, authoritative source materials.</p>
+        <p className="mt-2">You acknowledge that:</p>
+        <LegalList items={[
+          "AI-generated outputs may be incorrect, incomplete, misleading, or fabricated",
+          "Outputs may omit critical qualifications or context",
+          "Apparent accuracy does not guarantee correctness",
+        ]} />
+        <p className="mt-2">You must not rely on the Platform as a substitute for:</p>
+        <LegalList items={[
+          "Reviewing official standards",
+          "Obtaining professional advice",
+          "Complying with legal or regulatory obligations",
+        ]} />
+      </LegalSection>
+
+      <LegalSection heading="4. No Professional Advice">
+        <p>Nothing on the Platform constitutes professional, engineering, electrical, building, legal, or other regulated advice.</p>
+        <p className="mt-2">You are solely responsible for ensuring compliance with all applicable laws, codes, standards, and licence conditions.</p>
+      </LegalSection>
+
+      <LegalSection heading="5. Assumption of Risk">
+        <p>You acknowledge that use of the Platform involves inherent risk due to the limitations of AI technology.</p>
+        <p className="mt-2">You accept full responsibility for:</p>
+        <LegalList items={[
+          "All decisions made based on Platform outputs",
+          "Any work performed using Platform information",
+          "Any consequences arising from such use",
+        ]} />
+        <p className="mt-2">This includes risks of property damage, regulatory breach, personal injury, or death.</p>
+      </LegalSection>
+
+      <LegalSection heading="6. Acceptable Use">
+        <p>You must not:</p>
+        <LegalList items={[
+          "Use the Platform for unlawful purposes",
+          "Upload content you do not have the right to use",
+          "Infringe intellectual property rights",
+          "Interfere with or disrupt the Platform",
+          "Engage in excessive, automated, or abusive usage",
+        ]} />
+        <p className="mt-2">We may suspend or restrict access for misuse.</p>
+      </LegalSection>
+
+      <LegalSection heading="7. Intellectual Property">
+        <p>You retain ownership of your uploaded content.</p>
+        <p className="mt-2">You grant us a non-exclusive, worldwide licence to use, process, and store that content for the purpose of operating the Platform.</p>
+        <p className="mt-2">You are solely responsible for ensuring that uploaded materials comply with applicable copyright laws.</p>
+      </LegalSection>
+
+      <LegalSection heading="8. Subscriptions and Fees">
+        <p>Where applicable:</p>
+        <LegalList items={[
+          "Subscriptions renew automatically unless cancelled",
+          "Fees may be varied with reasonable notice",
+          "Changes apply from the next billing cycle",
+        ]} />
+      </LegalSection>
+
+      <LegalSection heading="9. Platform Availability">
+        <p>The Platform is provided on an "as is" and "as available" basis.</p>
+        <p className="mt-2">We do not guarantee that the Platform will be:</p>
+        <LegalList items={["Uninterrupted", "Error-free", "Secure"]} />
+      </LegalSection>
+
+      <LegalSection heading="10. Limitation of Liability">
+        <p>To the maximum extent permitted by law:</p>
+        <p className="mt-2">We exclude all liability for any loss or damage, including:</p>
+        <LegalList items={[
+          "Indirect or consequential loss",
+          "Loss of profits or business",
+          "Personal injury or property damage",
+        ]} />
+        <p className="mt-2">arising from use of the Platform.</p>
+        <p className="mt-2">Where liability cannot be excluded under the Australian Consumer Law, it is limited to:</p>
+        <LegalList items={[
+          "Resupply of services, or",
+          "Payment of the cost of resupply",
+        ]} />
+      </LegalSection>
+
+      <LegalSection heading="11. No Duty of Care">
+        <p>To the extent permitted by law, we do not owe you a duty of care in relation to the accuracy or reliability of Platform outputs.</p>
+      </LegalSection>
+
+      <LegalSection heading="12. Suspension and Termination">
+        <p>We may suspend or terminate your access at any time, including where:</p>
+        <LegalList items={[
+          "You breach this Agreement",
+          "Your usage is excessive or abnormal",
+          "Required for operational or legal reasons",
+        ]} />
+      </LegalSection>
+
+      <LegalSection heading="13. Changes to Platform">
+        <p>We may modify, suspend, or discontinue any part of the Platform at any time without liability.</p>
+      </LegalSection>
+
+      <LegalSection heading="14. Governing Law">
+        <p>This Agreement is governed by the laws of Western Australia, Australia.</p>
+      </LegalSection>
+
+      <LegalSection heading="15. Contact">
+        <p>[CONTACT EMAIL]</p>
+      </LegalSection>
+    </LegalPage>
+  );
+}
+
+/* ───── PRIVACY POLICY PAGE ───── */
+
+function PrivacyPage() {
+  return (
+    <LegalPage title="Privacy Policy">
+      <p className="text-sm" style={{ color: MUTED }}>
+        <strong style={{ color: DARK }}>Effective Date:</strong> [EFFECTIVE DATE]&ensp;|&ensp;
+        <strong style={{ color: DARK }}>Entity:</strong> [ENTITY NAME] (ABN: [ABN])
+      </p>
+      <div style={{ height: 1, background: BORDER }} />
+
+      <LegalSection heading="1. Collection of Personal Information">
+        <p>We may collect:</p>
+        <LegalList items={[
+          "Account details (name, email)",
+          "Uploaded documents and content",
+          "Usage data and interaction logs",
+          "Device and technical data",
+        ]} />
+      </LegalSection>
+
+      <LegalSection heading="2. Purpose of Collection">
+        <p>We collect and use information to:</p>
+        <LegalList items={[
+          "Provide and operate the Platform",
+          "Process AI queries and outputs",
+          "Improve performance and functionality",
+          "Maintain security and prevent misuse",
+        ]} />
+      </LegalSection>
+
+      <LegalSection heading="3. AI and Third-Party Processing">
+        <p>Your data may be processed by third-party service providers, including AI providers.</p>
+        <p className="mt-2">By using the Platform, you consent to such processing, including potential overseas data transfer.</p>
+      </LegalSection>
+
+      <LegalSection heading="4. Disclosure of Information">
+        <p>We do not sell personal information.</p>
+        <p className="mt-2">We may disclose information to:</p>
+        <LegalList items={[
+          "Service providers",
+          "Legal or regulatory authorities where required",
+          "Contractors assisting in operation of the Platform",
+        ]} />
+      </LegalSection>
+
+      <LegalSection heading="5. Data Security">
+        <p>We take reasonable steps to protect personal information from misuse, interference, loss, and unauthorised access.</p>
+        <p className="mt-2">However, no system is completely secure.</p>
+      </LegalSection>
+
+      <LegalSection heading="6. Data Retention">
+        <p>We retain information only as long as necessary for business or legal purposes.</p>
+      </LegalSection>
+
+      <LegalSection heading="7. Access and Correction">
+        <p>You may request access to or correction of your personal information by contacting us.</p>
+      </LegalSection>
+
+      <LegalSection heading="8. Cookies and Analytics">
+        <p>We may use cookies and analytics tools to improve user experience.</p>
+      </LegalSection>
+
+      <LegalSection heading="9. Overseas Disclosure">
+        <p>Some service providers may store or process data outside Australia.</p>
+      </LegalSection>
+
+      <LegalSection heading="10. Contact">
+        <p>[CONTACT EMAIL]</p>
+      </LegalSection>
+    </LegalPage>
+  );
+}
+
+/* ───── DISCLAIMER PAGE ───── */
+
+function DisclaimerPage() {
+  return (
+    <LegalPage title="Disclaimer">
+      <p className="text-sm" style={{ color: MUTED }}>
+        <strong style={{ color: DARK }}>Effective Date:</strong> [EFFECTIVE DATE]&ensp;|&ensp;
+        <strong style={{ color: DARK }}>Entity:</strong> [ENTITY NAME]
+      </p>
+      <div style={{ height: 1, background: BORDER }} />
+
+      <LegalSection heading="1. Reference Tool Only">
+        <p>The Platform is provided as a reference tool only and must not be relied upon.</p>
+      </LegalSection>
+
+      <LegalSection heading="2. AI Limitations">
+        <p>The Platform uses artificial intelligence which may generate outputs that are:</p>
+        <LegalList items={[
+          "Incorrect",
+          "Incomplete",
+          "Outdated",
+          "Misleading",
+          "Fabricated",
+        ]} />
+        <p className="mt-2">AI outputs may omit critical information necessary for compliance.</p>
+      </LegalSection>
+
+      <LegalSection heading="3. No Professional Advice">
+        <p>Nothing on the Platform constitutes professional advice of any kind.</p>
+        <p className="mt-2">You must obtain independent professional advice where required.</p>
+      </LegalSection>
+
+      <LegalSection heading="4. Verification Requirement">
+        <p>You must independently verify all information against current, authoritative standards before acting on it.</p>
+      </LegalSection>
+
+      <LegalSection heading="5. Assumption of Risk">
+        <p>You acknowledge that use of the Platform involves inherent risk.</p>
+        <p className="mt-2">You accept full responsibility for all outcomes arising from your use, including:</p>
+        <LegalList items={[
+          "Regulatory breaches",
+          "Property damage",
+          "Personal injury or death",
+        ]} />
+      </LegalSection>
+
+      <LegalSection heading="6. No Liability">
+        <p>To the maximum extent permitted by law, we disclaim all liability for any loss or damage arising from use of the Platform.</p>
+      </LegalSection>
+
+      <LegalSection heading="7. Availability">
+        <p>We do not guarantee continuous or error-free operation of the Platform.</p>
+      </LegalSection>
+
+      <LegalSection heading="8. Updates">
+        <p>We may update this Disclaimer at any time. Continued use constitutes acceptance.</p>
+      </LegalSection>
+    </LegalPage>
   );
 }
 
@@ -949,14 +1283,12 @@ export default function App() {
       .then(({ count: c }) => { if (c !== null) setCount(545 + c); });
   }, []);
 
-  return (
+  const homePage = (
     <div className="min-h-screen relative" style={{ background: `linear-gradient(to right, #FFFFFF, #FFF5F5)`, fontFamily: "'Inter', sans-serif" }}>
       {/* Noise texture overlay */}
       <div
         className="pointer-events-none fixed inset-0 z-[99] opacity-[0.15]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-        }}
+        style={{ backgroundImage: NOISE_BG }}
       />
       {/* Kinso-style grid pattern with fade from left to right */}
       <div
@@ -982,5 +1314,14 @@ export default function App() {
       <FAQs />
       <Footer />
     </div>
+  );
+
+  return (
+    <Routes>
+      <Route path="/" element={homePage} />
+      <Route path="/terms-of-use" element={<TermsPage />} />
+      <Route path="/privacy-policy" element={<PrivacyPage />} />
+      <Route path="/disclaimer" element={<DisclaimerPage />} />
+    </Routes>
   );
 }
