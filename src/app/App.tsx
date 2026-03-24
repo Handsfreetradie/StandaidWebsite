@@ -946,7 +946,7 @@ export default function App() {
     supabase
       .from("waitlist")
       .select("*", { count: "exact", head: true })
-      .then(({ count: c }) => { if (c !== null) setCount(c); });
+      .then(({ count: c }) => { if (c !== null) setCount(545 + c); });
   }, []);
 
   return (
