@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { StandAIdLogo } from "./components/StandAIdLogo";
 import { allLogos } from "./components/StandardsLogos";
+import { supabase } from "../lib/supabase";
 
 /* ───── Kinso-matched palette ───── */
 const ACCENT = "#DC2626"; // Changed from lavender to red
@@ -767,6 +768,30 @@ function HowItWorks() {
 function Waitlist() {
   const [email, setEmail] = useState("");
   const [done, setDone] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setLoading(true);
+    setError(null);
+    const { error: sbError } = await supabase
+      .from("waitlist")
+      .insert({ email });
+    setLoading(false);
+    if (sbError) {
+      if (sbError.code === "23505") {
+        // unique constraint — email already on the list
+        setDone(true);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } else {
+      setDone(true);
+    }
+  };
+
   return (
     <section className="relative overflow-hidden py-28 px-6" id="waitlist" style={{ background: "#F2F0ED" }}>
       <div className="pointer-events-none absolute inset-0 -z-10" style={{ background: `radial-gradient(ellipse 55% 45% at 50% 50%, ${ACCENT}08 0%, transparent 65%)` }} />
@@ -792,7 +817,7 @@ function Waitlist() {
             </motion.p>
           ) : (
             <form
-              onSubmit={(e) => { e.preventDefault(); if (email) setDone(true); }}
+              onSubmit={handleSubmit}
               className="flex w-full max-w-md flex-col gap-3 sm:flex-row"
             >
               <label htmlFor="waitlist-email" className="sr-only">Email address</label>
@@ -801,11 +826,17 @@ function Waitlist() {
                 name="email"
                 type="email" required placeholder="Enter your email" value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 rounded-full bg-white px-5 py-3 text-sm outline-none transition-shadow focus:shadow-[0_0_0_2px_rgba(108,92,231,0.15)]"
+                disabled={loading}
+                className="flex-1 rounded-full bg-white px-5 py-3 text-sm outline-none transition-shadow focus:shadow-[0_0_0_2px_rgba(108,92,231,0.15)] disabled:opacity-60"
                 style={{ color: DARK, border: `1px solid ${BORDER}` }}
               />
-              <Btn type="submit">Join the Waitlist <ArrowRight size={15} /></Btn>
+              <Btn type="submit" onClick={loading ? undefined : undefined}>
+                {loading ? "Joining…" : <>Join the Waitlist <ArrowRight size={15} /></>}
+              </Btn>
             </form>
+          )}
+          {error && (
+            <p className="mt-2 text-sm" style={{ color: ACCENT }}>{error}</p>
           )}
         </Reveal>
         <Reveal delay={0.25}>
