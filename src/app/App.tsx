@@ -1280,7 +1280,7 @@ export default function App() {
     supabase
       .from("waitlist")
       .select("*", { count: "exact", head: true })
-      .then(({ count: c }) => { if (c !== null) setCount(545 + c); });
+      .then(({ count: c }) => { if (c !== null) setCount(548 + c); });
   }, []);
 
   const homePage = (
