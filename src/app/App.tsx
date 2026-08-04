@@ -761,7 +761,7 @@ function TermsPage() {
 
       <LegalSection heading="3. Your uploads and copyright">
         <p>You may only upload documents you are legally entitled to use — for example, a standard you have purchased or hold a valid licence or subscription for. By uploading, you confirm this and accept responsibility for complying with the publisher's terms.</p>
-        <p className="mt-2">Your uploaded documents are stored privately against your account. They are never shared with, or made searchable by, other users. Processing (text extraction, indexing and answering your questions) happens solely to provide the service to you.</p>
+        <p className="mt-2">Your uploaded documents are stored privately against your account. They are never shared with, or made searchable by, other users — even if another user owns the same standard, they cannot access, view or search your copy. This reflects the licensing terms Standards Australia and other publishers place on their documents. Processing (text extraction, indexing and answering your questions) happens solely to provide the service to you.</p>
       </LegalSection>
 
       <LegalSection heading="4. Your account">
@@ -805,7 +805,7 @@ function PrivacyPage() {
       </LegalSection>
 
       <LegalSection heading="4. Where it's stored">
-        <p>Data is stored with our hosting provider (Supabase) in access-controlled databases and private file storage. Documents are served only to your logged-in account via short-lived links. We take reasonable steps to protect your information in line with the Privacy Act 1988 (Cth) and the Australian Privacy Principles.</p>
+        <p>Data is stored with our hosting provider (Supabase) in access-controlled databases and private file storage. Documents are served only to your logged-in account via short-lived links, and are never accessible to any other user — this reflects Standards Australia's licensing requirements as well as our own security design. We take reasonable steps to protect your information in line with the Privacy Act 1988 (Cth) and the Australian Privacy Principles.</p>
       </LegalSection>
 
       <LegalSection heading="5. Retention and deletion">
