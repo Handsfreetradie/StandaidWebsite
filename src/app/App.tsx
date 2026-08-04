@@ -3,8 +3,8 @@ import { Routes, Route, Link, useNavigate } from "react-router";
 import { motion, useInView, useMotionValue, useTransform, animate, AnimatePresence } from "motion/react";
 import {
   ArrowRight, Menu, X, ChevronDown, Mic,
-  PenTool, Calculator, ShieldCheck, Instagram, Linkedin, Youtube,
-  Brain, GraduationCap, Wrench, FileText, Zap
+  PenTool, ShieldCheck, Instagram, Linkedin, Youtube,
+  Brain, GraduationCap, Wrench
 } from "lucide-react";
 import { StandAIdLogo } from "./components/StandAIdLogo";
 import { allLogos } from "./components/StandardsLogos";
@@ -79,225 +79,6 @@ function useTypingText(text: string, startDelay: number, speed = 30) {
   }, [started, text, speed]);
 
   return { displayed, started, done };
-}
-
-/* ──── Handwriting Animation ───── */
-
-function HandwritingAnimation() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
-  const lines = [
-    { text: "Vd = (2 × L × I × R) / 1000", delay: 0 },
-    { text: "L = 45m, I = 16A", delay: 0.6 },
-    { text: "R = 1.15 Ω/km (2.5mm²)", delay: 1.2 },
-    { text: "Vd = (2 × 45 × 16 × 1.15) / 1000", delay: 1.8 },
-    { text: "Vd = 1.656V", delay: 2.4 },
-  ];
-
-  return (
-    <div ref={ref} className="mt-3 flex flex-col gap-1.5 rounded-xl px-4 py-3" style={{ background: BG, minHeight: 120 }}>
-      {lines.map((line, i) => (
-        <motion.div
-          key={i}
-          className="text-xs"
-          style={{ 
-            color: DARK, 
-            fontFamily: "'Caveat', cursive",
-            fontSize: i === lines.length - 1 ? "15px" : "13px",
-            fontWeight: i === lines.length - 1 ? 600 : 400
-          }}
-          initial={{ opacity: 0, x: -10 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.5, delay: line.delay, ease: "easeOut" }}
-        >
-          {line.text}
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-/* ───── iPhone Trade Tools Mockup ───── */
-
-function IPhoneMockup() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [view, setView] = useState<"list" | "detail">("list");
-
-  const tools = [
-    { icon: <Zap size={18} />, name: "Volt Drop Calculator", color: "#DC2626" },
-    { icon: <Calculator size={18} />, name: "Cable Sizing", color: "#EA580C" },
-    { icon: <ArrowRight size={18} />, name: "Pipe Fall Calculator", color: "#CA8A04" },
-    { icon: <FileText size={18} />, name: "Stair Rise & Going", color: "#16A34A" },
-    { icon: <Wrench size={18} />, name: "Concrete Volume", color: "#2563EB" },
-  ];
-
-  useEffect(() => {
-    if (!inView) return;
-    
-    // Only animate once - go to detail view after 2 seconds
-    const timer = setTimeout(() => setView("detail"), 2000);
-    
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [inView]);
-
-  return (
-    <div ref={ref} className="flex items-center justify-center py-8">
-      {/* iPhone Frame */}
-      <div 
-        className="relative rounded-[3rem] p-3 shadow-[0_20px_80px_rgba(0,0,0,0.15)]"
-        style={{ 
-          background: "linear-gradient(135deg, #2D2D2D 0%, #1A1A1A 100%)",
-          width: "280px",
-          height: "570px"
-        }}
-      >
-        {/* Notch */}
-        <div 
-          className="absolute left-1/2 top-3 z-20 h-6 -translate-x-1/2 rounded-full"
-          style={{ 
-            background: "#000",
-            width: "120px"
-          }}
-        />
-        
-        {/* Screen */}
-        <div 
-          className="relative h-full w-full overflow-hidden rounded-[2.5rem]"
-          style={{ background: "#FAFAFA" }}
-        >
-          {/* Status Bar */}
-          <div className="flex items-center justify-between px-6 pt-3 pb-2">
-            <span className="text-[11px]" style={{ color: DARK }}>9:41</span>
-            <div className="flex items-center gap-1">
-              <div className="h-2.5 w-4 rounded-sm border" style={{ borderColor: DARK, borderWidth: "1px" }}>
-                <div className="h-full w-3/4 rounded-sm" style={{ background: DARK }} />
-              </div>
-            </div>
-          </div>
-
-          {/* App Content */}
-          <div className="px-5 pt-2">
-            <AnimatePresence mode="wait">
-              {view === "list" ? (
-                <motion.div
-                  key="list"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Logo */}
-                  <div className="mb-6 flex items-center justify-center">
-                    <StandAIdLogo className="text-lg" />
-                  </div>
-
-                  {/* Tools List */}
-                  <div className="flex flex-col gap-2">
-                    {tools.map((tool, i) => (
-                      <motion.div
-                        key={tool.name}
-                        className="flex items-center gap-3 rounded-xl bg-white p-3 shadow-sm"
-                        style={{ border: `1px solid ${BORDER}` }}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <div 
-                          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-                          style={{ background: `${tool.color}15`, color: tool.color }}
-                        >
-                          {tool.icon}
-                        </div>
-                        <span className="text-sm" style={{ color: DARK }}>{tool.name}</span>
-                        <ChevronDown size={14} className="ml-auto rotate-[-90deg]" style={{ color: MUTED }} />
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="detail"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Back Button */}
-                  <button className="mb-4 flex items-center gap-1 text-sm" style={{ color: ACCENT }}>
-                    <ChevronDown size={16} className="rotate-90" />
-                    <span>Tools</span>
-                  </button>
-
-                  {/* Tool Detail - Scrollable Content */}
-                  <div className="rounded-2xl bg-white p-4 shadow-sm overflow-y-auto" style={{ border: `1px solid ${BORDER}`, maxHeight: "480px" }}>
-                    <div className="mb-4 flex items-center gap-3">
-                      <div 
-                        className="flex h-12 w-12 items-center justify-center rounded-xl"
-                        style={{ background: `${ACCENT}15`, color: ACCENT }}
-                      >
-                        <Zap size={22} />
-                      </div>
-                      <h3 className="text-base" style={{ color: DARK }}>Volt Drop Calculator</h3>
-                    </div>
-
-                    <div className="space-y-3">
-                      <div>
-                        <label className="text-xs font-medium" style={{ color: MUTED }}>Supply Type</label>
-                        <div className="mt-1 rounded-lg bg-gray-50 px-3 py-2 text-sm" style={{ color: DARK }}>Single Phase</div>
-                      </div>
-                      
-                      <div>
-                        <label className="text-xs font-medium" style={{ color: MUTED }}>Cable Type</label>
-                        <div className="mt-1 rounded-lg bg-gray-50 px-3 py-2 text-sm" style={{ color: DARK }}>Copper - PVC</div>
-                      </div>
-                      
-                      <div>
-                        <label className="text-xs font-medium" style={{ color: MUTED }}>Installation Method</label>
-                        <div className="mt-1 rounded-lg bg-gray-50 px-3 py-2 text-sm" style={{ color: DARK }}>Enclosed (Method 3)</div>
-                      </div>
-                      
-                      <div>
-                        <label className="text-xs font-medium" style={{ color: MUTED }}>Cable Size (mm²)</label>
-                        <div className="mt-1 rounded-lg bg-gray-50 px-3 py-2 text-sm" style={{ color: DARK }}>2.5</div>
-                      </div>
-                      
-                      <div>
-                        <label className="text-xs font-medium" style={{ color: MUTED }}>Cable Length (m)</label>
-                        <div className="mt-1 rounded-lg bg-gray-50 px-3 py-2 text-sm" style={{ color: DARK }}>45</div>
-                      </div>
-                      
-                      <div>
-                        <label className="text-xs font-medium" style={{ color: MUTED }}>Load Current (A)</label>
-                        <div className="mt-1 rounded-lg bg-gray-50 px-3 py-2 text-sm" style={{ color: DARK }}>16</div>
-                      </div>
-                      
-                      <div>
-                        <label className="text-xs font-medium" style={{ color: MUTED }}>Operating Temperature (°C)</label>
-                        <div className="mt-1 rounded-lg bg-gray-50 px-3 py-2 text-sm" style={{ color: DARK }}>30</div>
-                      </div>
-                      
-                      <div className="mt-4 rounded-xl px-4 py-3" style={{ background: `${ACCENT}10` }}>
-                        <div className="text-xs font-medium" style={{ color: MUTED }}>Voltage Drop</div>
-                        <div className="mt-1 text-xl font-semibold" style={{ color: ACCENT }}>1.66V (0.72%)</div>
-                        <div className="mt-2 text-[10px]" style={{ color: MUTED }}>
-                          ✓ Within AS/NZS 3000 limits (5%)
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 /* ───── Reusable bits ───── */
@@ -619,10 +400,10 @@ function FeatureSection({ tag, title, body, mockup, reverse }: {
   );
 }
 
-function MockCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+function ScreenshotMock({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
   return (
-    <div className={`rounded-2xl bg-white p-5 shadow-[0_2px_20px_rgba(0,0,0,0.04)] ${className}`} style={{ border: `1px solid ${BORDER}` }}>
-      {children}
+    <div className={`overflow-hidden rounded-2xl bg-white shadow-[0_2px_20px_rgba(0,0,0,0.06)] ${className}`} style={{ border: `1px solid ${BORDER}` }}>
+      <img src={src} alt={alt} className="block w-full h-auto" />
     </div>
   );
 }
@@ -638,19 +419,7 @@ function Features() {
           tag="Standards AI"
           title="Ask your standards anything."
           body="Upload the standards you've purchased. StandAId extracts and chunks every clause, table and diagram. Ask questions by text or voice and get precise answers with clause references — sourced only from your documents. No internet. No guessing."
-          mockup={
-            <MockCard>
-              <div className="mb-4 flex items-center gap-2 text-xs" style={{ color: MUTED }}>
-                <FileText size={14} /> AS/NZS 3000:2018
-              </div>
-              <div className="mb-3 ml-auto inline-block max-w-fit rounded-2xl rounded-br-sm px-4 py-2.5 text-sm text-white" style={{ background: ACCENT }}>
-                What is the minimum main earth conductor size?
-              </div>
-              <div className="inline-block max-w-fit rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm" style={{ background: BG, color: DARK }}>
-                <strong style={{ color: ACCENT }}>Clause 5.3.3.2, AS/NZS 3000:2018</strong> — The main earthing conductor size is determined from <strong>Table 5.1</strong> based on your largest active conductor. The minimum is <strong>4 mm²</strong> copper, and it need not exceed <strong>120 mm²</strong>.
-              </div>
-            </MockCard>
-          }
+          mockup={<ScreenshotMock src="/screenshots/chat-answer.png" alt="StandAId chat answering a real earth fault-loop impedance question, with clause references" />}
         />
 
         <FeatureSection
@@ -658,31 +427,14 @@ function Features() {
           tag="Exam Helper"
           title="Study smarter. Pass faster."
           body="Generate mock exams and study guides built directly from your uploaded standards. Upload a photo of your handwritten working and the AI reviews it like a teacher — giving detailed feedback and guidance without ever giving you the answer directly."
-          mockup={
-            <div className="grid grid-cols-2 gap-3">
-              <MockCard>
-                <span className="text-[11px] uppercase tracking-wider" style={{ color: ACCENT }}>Mock Exam</span>
-                <p className="mt-3 text-sm" style={{ color: DARK }}>Q3: What is the maximum demand for a 3-phase motor rated at 7.5 kW?</p>
-                <div className="mt-4 flex gap-2">
-                  {["A", "B", "C", "D"].map((o) => (
-                    <span key={o} className="flex h-8 w-8 items-center justify-center rounded-lg text-xs" style={{ border: `1px solid ${BORDER}`, color: MUTED }}>{o}</span>
-                  ))}
-                </div>
-              </MockCard>
-              <MockCard>
-                <span className="text-[11px] uppercase tracking-wider" style={{ color: ACCENT }}>Handwriting Review</span>
-                <HandwritingAnimation />
-                <p className="mt-3 text-xs" style={{ color: MUTED }}>AI Feedback: Your calculation is on track but check your power factor assumption…</p>
-              </MockCard>
-            </div>
-          }
+          mockup={<ScreenshotMock src="/screenshots/quiz-question.png" alt="A real StandAId practice quiz question with multiple-choice answers" />}
         />
 
         <FeatureSection
           tag="Trade Tools"
           title="Every calculation. Every trade."
           body="Built-in tools covering every trade discipline. Volt drop, cable sizing, pipe sizing, fall calculator, stair rise and going, concrete volume and more. Fast, accurate and always on hand — no app switching required."
-          mockup={<IPhoneMockup />}
+          mockup={<ScreenshotMock src="/screenshots/voltage-drop-result.png" alt="A real StandAId Voltage Drop Calculator result: compliant, with drop percentage and derating" />}
         />
       </div>
     </section>
@@ -1295,8 +1047,8 @@ export default function App() {
         className="pointer-events-none fixed inset-0 z-0"
         style={{
           backgroundImage: `
-            linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px)
+            linear-gradient(to right, rgba(0,0,0,0.07) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(0,0,0,0.07) 1px, transparent 1px)
           `,
           backgroundSize: "8px 8px",
           maskImage: "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%)",
