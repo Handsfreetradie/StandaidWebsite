@@ -671,9 +671,8 @@ function Footer() {
             >{label}</a>
           ))}
           {[
-            { label: "Terms of Use", to: "/terms-of-use" },
+            { label: "Terms of Service", to: "/terms-of-use" },
             { label: "Privacy Policy", to: "/privacy-policy" },
-            { label: "Disclaimer", to: "/disclaimer" },
           ].map(({ label, to }) => (
             <Link key={label} to={to} className="text-sm transition-colors" style={{ color: MUTED }}
               onMouseEnter={(e) => (e.currentTarget.style.color = DARK)}
@@ -736,144 +735,49 @@ function LegalSection({ heading, children }: { heading: string; children: React.
   );
 }
 
-function LegalList({ items }: { items: string[] }) {
-  return (
-    <ul className="mt-2 flex flex-col gap-1 pl-4">
-      {items.map((item, i) => (
-        <li key={i} className="flex gap-2">
-          <span style={{ color: ACCENT }}>—</span>
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 /* ───── TERMS OF USE PAGE ───── */
+
+const LEGAL_LAST_UPDATED = "4 July 2026";
+const LEGAL_SUPPORT_EMAIL = "hello@standaid.ai";
+
+function LegalContactLink() {
+  return <a href={`mailto:${LEGAL_SUPPORT_EMAIL}`} style={{ color: ACCENT }}>{LEGAL_SUPPORT_EMAIL}</a>;
+}
 
 function TermsPage() {
   return (
-    <LegalPage title="Terms of Use">
-      <p className="text-sm" style={{ color: MUTED }}>
-        <strong style={{ color: DARK }}>Effective Date:</strong> [EFFECTIVE DATE]&ensp;|&ensp;
-        <strong style={{ color: DARK }}>Entity:</strong> [ENTITY NAME] (ABN: [ABN])&ensp;|&ensp;
-        <strong style={{ color: DARK }}>Contact:</strong> [CONTACT EMAIL]
-      </p>
+    <LegalPage title="Terms of Service">
+      <p className="text-sm" style={{ color: MUTED }}>Last updated: {LEGAL_LAST_UPDATED}</p>
       <div style={{ height: 1, background: BORDER }} />
 
-      <LegalSection heading="1. Acceptance of Terms">
-        <p>By accessing or using the StandAId platform ("Platform"), you agree to be bound by these Terms of Use, together with our Privacy Policy and Disclaimer (collectively, "Agreement"). If you do not agree, you must not use the Platform.</p>
+      <LegalSection heading="1. What StandAId is">
+        <p>StandAId is an app that helps Australian tradespeople search, understand and study standards documents that they upload themselves. It uses artificial intelligence (AI) to answer questions about your uploaded documents, generate study material, and provide trade calculators.</p>
       </LegalSection>
 
-      <LegalSection heading="2. Nature of the Platform">
-        <p>The Platform provides AI-assisted tools for interacting with technical documents, including Australian Standards.</p>
-        <p className="mt-2">The Platform is a reference tool only. It is not a source of truth and must not be relied upon as such.</p>
+      <LegalSection heading="2. It's a reference aid — not a substitute for the standard">
+        <p>AI-generated answers, study material and calculator results can contain errors. They are provided as a convenience to help you find and understand information faster — they are not professional advice, not a compliance certification, and not a replacement for the published standard, the National Construction Code, or the judgement of a licensed tradesperson.</p>
+        <p className="mt-2" style={{ color: DARK }}>Always verify safety-critical values against the published standard before relying on them. You remain fully responsible for work you carry out.</p>
       </LegalSection>
 
-      <LegalSection heading="3. No Reliance and Verification Obligation">
-        <p>You must independently verify all information obtained through the Platform against current, authoritative source materials.</p>
-        <p className="mt-2">You acknowledge that:</p>
-        <LegalList items={[
-          "AI-generated outputs may be incorrect, incomplete, misleading, or fabricated",
-          "Outputs may omit critical qualifications or context",
-          "Apparent accuracy does not guarantee correctness",
-        ]} />
-        <p className="mt-2">You must not rely on the Platform as a substitute for:</p>
-        <LegalList items={[
-          "Reviewing official standards",
-          "Obtaining professional advice",
-          "Complying with legal or regulatory obligations",
-        ]} />
+      <LegalSection heading="3. Your uploads and copyright">
+        <p>You may only upload documents you are legally entitled to use — for example, a standard you have purchased or hold a valid licence or subscription for. By uploading, you confirm this and accept responsibility for complying with the publisher's terms.</p>
+        <p className="mt-2">Your uploaded documents are stored privately against your account. They are never shared with, or made searchable by, other users. Processing (text extraction, indexing and answering your questions) happens solely to provide the service to you.</p>
       </LegalSection>
 
-      <LegalSection heading="4. No Professional Advice">
-        <p>Nothing on the Platform constitutes professional, engineering, electrical, building, legal, or other regulated advice.</p>
-        <p className="mt-2">You are solely responsible for ensuring compliance with all applicable laws, codes, standards, and licence conditions.</p>
+      <LegalSection heading="4. Your account">
+        <p>Keep your login details secure — you're responsible for activity on your account. One account is for one person; don't share access. We may suspend accounts that breach these terms or abuse the service.</p>
       </LegalSection>
 
-      <LegalSection heading="5. Assumption of Risk">
-        <p>You acknowledge that use of the Platform involves inherent risk due to the limitations of AI technology.</p>
-        <p className="mt-2">You accept full responsibility for:</p>
-        <LegalList items={[
-          "All decisions made based on Platform outputs",
-          "Any work performed using Platform information",
-          "Any consequences arising from such use",
-        ]} />
-        <p className="mt-2">This includes risks of property damage, regulatory breach, personal injury, or death.</p>
+      <LegalSection heading="5. Subscriptions and fair use">
+        <p>Free accounts include a limited number of AI queries per day and partial document indexing. Paid plans lift those limits, subject to fair-use caps that protect the service from runaway automated usage. To manage or cancel a subscription, contact us at <LegalContactLink />.</p>
       </LegalSection>
 
-      <LegalSection heading="6. Acceptable Use">
-        <p>You must not:</p>
-        <LegalList items={[
-          "Use the Platform for unlawful purposes",
-          "Upload content you do not have the right to use",
-          "Infringe intellectual property rights",
-          "Interfere with or disrupt the Platform",
-          "Engage in excessive, automated, or abusive usage",
-        ]} />
-        <p className="mt-2">We may suspend or restrict access for misuse.</p>
+      <LegalSection heading="6. Liability">
+        <p>To the maximum extent permitted by law (including the Australian Consumer Law, whose consumer guarantees are not excluded), StandAId is provided "as is" and we are not liable for loss arising from reliance on AI-generated content or calculator results. Where liability cannot be excluded, it is limited to re-supplying the service or the amount you paid for it in the previous 12 months.</p>
       </LegalSection>
 
-      <LegalSection heading="7. Intellectual Property">
-        <p>You retain ownership of your uploaded content.</p>
-        <p className="mt-2">You grant us a non-exclusive, worldwide licence to use, process, and store that content for the purpose of operating the Platform.</p>
-        <p className="mt-2">You are solely responsible for ensuring that uploaded materials comply with applicable copyright laws.</p>
-      </LegalSection>
-
-      <LegalSection heading="8. Subscriptions and Fees">
-        <p>Where applicable:</p>
-        <LegalList items={[
-          "Subscriptions renew automatically unless cancelled",
-          "Fees may be varied with reasonable notice",
-          "Changes apply from the next billing cycle",
-        ]} />
-      </LegalSection>
-
-      <LegalSection heading="9. Platform Availability">
-        <p>The Platform is provided on an "as is" and "as available" basis.</p>
-        <p className="mt-2">We do not guarantee that the Platform will be:</p>
-        <LegalList items={["Uninterrupted", "Error-free", "Secure"]} />
-      </LegalSection>
-
-      <LegalSection heading="10. Limitation of Liability">
-        <p>To the maximum extent permitted by law:</p>
-        <p className="mt-2">We exclude all liability for any loss or damage, including:</p>
-        <LegalList items={[
-          "Indirect or consequential loss",
-          "Loss of profits or business",
-          "Personal injury or property damage",
-        ]} />
-        <p className="mt-2">arising from use of the Platform.</p>
-        <p className="mt-2">Where liability cannot be excluded under the Australian Consumer Law, it is limited to:</p>
-        <LegalList items={[
-          "Resupply of services, or",
-          "Payment of the cost of resupply",
-        ]} />
-      </LegalSection>
-
-      <LegalSection heading="11. No Duty of Care">
-        <p>To the extent permitted by law, we do not owe you a duty of care in relation to the accuracy or reliability of Platform outputs.</p>
-      </LegalSection>
-
-      <LegalSection heading="12. Suspension and Termination">
-        <p>We may suspend or terminate your access at any time, including where:</p>
-        <LegalList items={[
-          "You breach this Agreement",
-          "Your usage is excessive or abnormal",
-          "Required for operational or legal reasons",
-        ]} />
-      </LegalSection>
-
-      <LegalSection heading="13. Changes to Platform">
-        <p>We may modify, suspend, or discontinue any part of the Platform at any time without liability.</p>
-      </LegalSection>
-
-      <LegalSection heading="14. Governing Law">
-        <p>This Agreement is governed by the laws of Western Australia, Australia.</p>
-      </LegalSection>
-
-      <LegalSection heading="15. Contact">
-        <p>[CONTACT EMAIL]</p>
+      <LegalSection heading="7. Changes and contact">
+        <p>We may update these terms as the service evolves; material changes will be flagged in the app. These terms are governed by the laws of Western Australia. Questions: <LegalContactLink /></p>
       </LegalSection>
     </LegalPage>
   );
@@ -884,131 +788,32 @@ function TermsPage() {
 function PrivacyPage() {
   return (
     <LegalPage title="Privacy Policy">
-      <p className="text-sm" style={{ color: MUTED }}>
-        <strong style={{ color: DARK }}>Effective Date:</strong> [EFFECTIVE DATE]&ensp;|&ensp;
-        <strong style={{ color: DARK }}>Entity:</strong> [ENTITY NAME] (ABN: [ABN])
-      </p>
+      <p className="text-sm" style={{ color: MUTED }}>Last updated: {LEGAL_LAST_UPDATED}</p>
       <div style={{ height: 1, background: BORDER }} />
 
-      <LegalSection heading="1. Collection of Personal Information">
-        <p>We may collect:</p>
-        <LegalList items={[
-          "Account details (name, email)",
-          "Uploaded documents and content",
-          "Usage data and interaction logs",
-          "Device and technical data",
-        ]} />
+      <LegalSection heading="1. What we collect">
+        <p>Account details (email, name), the documents you upload, the questions you ask (text, voice transcripts and photos you submit for analysis), your quiz and exam activity, feedback you give on answers, and basic usage information needed to run and secure the service.</p>
       </LegalSection>
 
-      <LegalSection heading="2. Purpose of Collection">
-        <p>We collect and use information to:</p>
-        <LegalList items={[
-          "Provide and operate the Platform",
-          "Process AI queries and outputs",
-          "Improve performance and functionality",
-          "Maintain security and prevent misuse",
-        ]} />
+      <LegalSection heading="2. How we use it">
+        <p>To provide the service: extracting and indexing your documents so they're searchable, generating answers and study material with AI, tracking your study progress, and enforcing plan limits. Feedback you submit on answers may be reviewed to improve accuracy.</p>
+        <p className="mt-2" style={{ color: DARK }}>We do not sell your data, and your uploaded documents are never shared with or made available to other users.</p>
       </LegalSection>
 
-      <LegalSection heading="3. AI and Third-Party Processing">
-        <p>Your data may be processed by third-party service providers, including AI providers.</p>
-        <p className="mt-2">By using the Platform, you consent to such processing, including potential overseas data transfer.</p>
+      <LegalSection heading="3. AI processing">
+        <p>To generate answers, relevant excerpts of your documents, your questions and any photos you submit are processed by our AI providers (Anthropic and OpenAI) under their API terms, which do not permit them to train their models on this data. Voice input is transcribed on your device by your browser, not on our servers.</p>
       </LegalSection>
 
-      <LegalSection heading="4. Disclosure of Information">
-        <p>We do not sell personal information.</p>
-        <p className="mt-2">We may disclose information to:</p>
-        <LegalList items={[
-          "Service providers",
-          "Legal or regulatory authorities where required",
-          "Contractors assisting in operation of the Platform",
-        ]} />
+      <LegalSection heading="4. Where it's stored">
+        <p>Data is stored with our hosting provider (Supabase) in access-controlled databases and private file storage. Documents are served only to your logged-in account via short-lived links. We take reasonable steps to protect your information in line with the Privacy Act 1988 (Cth) and the Australian Privacy Principles.</p>
       </LegalSection>
 
-      <LegalSection heading="5. Data Security">
-        <p>We take reasonable steps to protect personal information from misuse, interference, loss, and unauthorised access.</p>
-        <p className="mt-2">However, no system is completely secure.</p>
+      <LegalSection heading="5. Retention and deletion">
+        <p>Your data is kept while your account is active. Deleting a standard removes its content from your library. To delete your account and associated data, or to request a copy of your data, email <LegalContactLink /> and we'll action it within 30 days.</p>
       </LegalSection>
 
-      <LegalSection heading="6. Data Retention">
-        <p>We retain information only as long as necessary for business or legal purposes.</p>
-      </LegalSection>
-
-      <LegalSection heading="7. Access and Correction">
-        <p>You may request access to or correction of your personal information by contacting us.</p>
-      </LegalSection>
-
-      <LegalSection heading="8. Cookies and Analytics">
-        <p>We may use cookies and analytics tools to improve user experience.</p>
-      </LegalSection>
-
-      <LegalSection heading="9. Overseas Disclosure">
-        <p>Some service providers may store or process data outside Australia.</p>
-      </LegalSection>
-
-      <LegalSection heading="10. Contact">
-        <p>[CONTACT EMAIL]</p>
-      </LegalSection>
-    </LegalPage>
-  );
-}
-
-/* ───── DISCLAIMER PAGE ───── */
-
-function DisclaimerPage() {
-  return (
-    <LegalPage title="Disclaimer">
-      <p className="text-sm" style={{ color: MUTED }}>
-        <strong style={{ color: DARK }}>Effective Date:</strong> [EFFECTIVE DATE]&ensp;|&ensp;
-        <strong style={{ color: DARK }}>Entity:</strong> [ENTITY NAME]
-      </p>
-      <div style={{ height: 1, background: BORDER }} />
-
-      <LegalSection heading="1. Reference Tool Only">
-        <p>The Platform is provided as a reference tool only and must not be relied upon.</p>
-      </LegalSection>
-
-      <LegalSection heading="2. AI Limitations">
-        <p>The Platform uses artificial intelligence which may generate outputs that are:</p>
-        <LegalList items={[
-          "Incorrect",
-          "Incomplete",
-          "Outdated",
-          "Misleading",
-          "Fabricated",
-        ]} />
-        <p className="mt-2">AI outputs may omit critical information necessary for compliance.</p>
-      </LegalSection>
-
-      <LegalSection heading="3. No Professional Advice">
-        <p>Nothing on the Platform constitutes professional advice of any kind.</p>
-        <p className="mt-2">You must obtain independent professional advice where required.</p>
-      </LegalSection>
-
-      <LegalSection heading="4. Verification Requirement">
-        <p>You must independently verify all information against current, authoritative standards before acting on it.</p>
-      </LegalSection>
-
-      <LegalSection heading="5. Assumption of Risk">
-        <p>You acknowledge that use of the Platform involves inherent risk.</p>
-        <p className="mt-2">You accept full responsibility for all outcomes arising from your use, including:</p>
-        <LegalList items={[
-          "Regulatory breaches",
-          "Property damage",
-          "Personal injury or death",
-        ]} />
-      </LegalSection>
-
-      <LegalSection heading="6. No Liability">
-        <p>To the maximum extent permitted by law, we disclaim all liability for any loss or damage arising from use of the Platform.</p>
-      </LegalSection>
-
-      <LegalSection heading="7. Availability">
-        <p>We do not guarantee continuous or error-free operation of the Platform.</p>
-      </LegalSection>
-
-      <LegalSection heading="8. Updates">
-        <p>We may update this Disclaimer at any time. Continued use constitutes acceptance.</p>
+      <LegalSection heading="6. Contact and complaints">
+        <p>Privacy questions or complaints: <LegalContactLink />. If you're not satisfied with our response, you can contact the Office of the Australian Information Commissioner (oaic.gov.au).</p>
       </LegalSection>
     </LegalPage>
   );
@@ -1055,7 +860,6 @@ export default function App() {
       <Route path="/" element={homePage} />
       <Route path="/terms-of-use" element={<TermsPage />} />
       <Route path="/privacy-policy" element={<PrivacyPage />} />
-      <Route path="/disclaimer" element={<DisclaimerPage />} />
     </Routes>
   );
 }
