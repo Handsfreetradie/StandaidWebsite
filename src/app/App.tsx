@@ -3,7 +3,7 @@ import { Routes, Route, Link, useNavigate } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ArrowRight, Menu, X, ChevronDown, Mic, Check,
-  PenTool, ShieldCheck, Instagram, Linkedin, Youtube,
+  PenTool, ShieldCheck, Instagram, Facebook,
   Brain, GraduationCap, Wrench
 } from "lucide-react";
 import { StandAIdLogo } from "./components/StandAIdLogo";
@@ -124,7 +124,7 @@ function Nav() {
       }}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <StandAIdLogo className="text-xl" />
+        <StandAIdLogo className="text-2xl" />
         <div className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
             <a key={l} href={`#${l.toLowerCase().replace(/ /g, "-")}`}
@@ -682,8 +682,11 @@ function Footer() {
           ))}
         </div>
         <div className="flex gap-4">
-          {[Instagram, Linkedin, Youtube].map((Icon, i) => (
-            <a key={i} href="#" style={{ color: MUTED }} className="transition-colors hover:opacity-70"><Icon size={18} /></a>
+          {[
+            { Icon: Instagram, href: "https://www.instagram.com/standaid.ai/" },
+            { Icon: Facebook, href: "https://www.facebook.com/share/1EojQSpcoh/?mibextid=wwXIfr" },
+          ].map(({ Icon, href }, i) => (
+            <a key={i} href={href} target="_blank" rel="noopener noreferrer" style={{ color: MUTED }} className="transition-colors hover:opacity-70"><Icon size={18} /></a>
           ))}
         </div>
       </div>
