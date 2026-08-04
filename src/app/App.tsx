@@ -1,14 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router";
-import { motion, useInView, useMotionValue, useTransform, animate, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
-  ArrowRight, Menu, X, ChevronDown, Mic,
+  ArrowRight, Menu, X, ChevronDown, Mic, Check,
   PenTool, ShieldCheck, Instagram, Linkedin, Youtube,
   Brain, GraduationCap, Wrench
 } from "lucide-react";
 import { StandAIdLogo } from "./components/StandAIdLogo";
 import { allLogos } from "./components/StandardsLogos";
-import { supabase } from "../lib/supabase";
 
 /* ───── Kinso-matched palette ───── */
 const ACCENT = "#DC2626"; // Changed from lavender to red
@@ -33,23 +32,6 @@ function Reveal({ children, className = "", delay = 0 }: {
       {children}
     </motion.div>
   );
-}
-
-/* ───── Animated counter ───── */
-
-function CountUp({ target, duration = 2 }: { target: number; duration?: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const motionVal = useMotionValue(0);
-  const rounded = useTransform(motionVal, (v) => Math.floor(v).toLocaleString());
-  const inView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (inView) {
-      animate(motionVal, target, { duration, ease: [0.25, 0.1, 0.25, 1] });
-    }
-  }, [inView, motionVal, target, duration]);
-
-  return <motion.span ref={ref}>{rounded}</motion.span>;
 }
 
 /* ───── Typing text hook ───── */
@@ -126,7 +108,7 @@ function Nav() {
     };
   }, []);
 
-  const links = ["Features", "Tools", "How It Works", "FAQs"];
+  const links = ["Features", "Tools", "Pricing", "How It Works", "FAQs"];
 
   return (
     <motion.nav
@@ -153,7 +135,7 @@ function Nav() {
             >{l}</a>
           ))}
         </div>
-        <div className="hidden md:block"><Btn href="#waitlist">Join the Waitlist</Btn></div>
+        <div className="hidden md:block"><Btn href="https://standaid-9mas.vercel.app">Get Started</Btn></div>
         <button className="md:hidden" style={{ color: DARK }} onClick={() => setOpen(!open)}>
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -163,7 +145,7 @@ function Nav() {
           {links.map((l) => (
             <a key={l} href={`#${l.toLowerCase().replace(/ /g, "-")}`} className="text-sm" style={{ color: MUTED }} onClick={() => setOpen(false)}>{l}</a>
           ))}
-          <Btn href="#waitlist" onClick={() => setOpen(false)}>Join the Waitlist</Btn>
+          <Btn href="https://standaid-9mas.vercel.app" onClick={() => setOpen(false)}>Get Started</Btn>
         </div>
       )}
     </motion.nav>
@@ -265,19 +247,11 @@ function HeroChatMockup() {
   );
 }
 
-function Hero({ count }: { count: number }) {
+function Hero() {
   return (
     <section className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden px-6 pt-28 pb-20 text-center">
       {/* Kinso-style gradient orbs */}
       <div className="pointer-events-none absolute inset-0 -z-10" style={{ background: `radial-gradient(ellipse 70% 55% at 50% -5%, ${ACCENT}12 0%, transparent 65%)` }} />
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.15 }}
-      >
-        <Tag>Coming Soon</Tag>
-      </motion.div>
-
       <motion.h1
         className="mx-auto mt-7 max-w-2xl text-4xl sm:text-5xl md:text-[3.5rem]"
         style={{ color: DARK, lineHeight: 1.08, letterSpacing: "-0.025em" }}
@@ -304,20 +278,9 @@ function Hero({ count }: { count: number }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.6 }}
       >
-        <Btn href="#waitlist">Join the Waitlist <ArrowRight size={15} /></Btn>
+        <Btn href="https://standaid-9mas.vercel.app">Get Started <ArrowRight size={15} /></Btn>
         <Btn ghost href="#how-it-works">See how it works</Btn>
       </motion.div>
-
-      {/* Waitlist counter */}
-      <motion.p
-        className="mt-5 text-sm"
-        style={{ color: MUTED }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.8 }}
-      >
-        Join <span style={{ color: ACCENT }}><CountUp target={count} duration={2.5} /></span> others already on the waitlist
-      </motion.p>
 
       {/* App mockup with typing animation */}
       <HeroChatMockup />
@@ -335,7 +298,7 @@ function Statement() {
         <Reveal>
           <h2 className="text-3xl sm:text-4xl md:text-[2.75rem]" style={{ color: DARK, lineHeight: 1.15, letterSpacing: "-0.02em" }}>
             "AI gives you answers.<br />
-            <span style={{ color: ACCENT }}>StandAId</span> gives you the <em>right</em> ones."
+            <span style={{ color: DARK }}>Stand</span><span style={{ color: ACCENT }}>AI</span><span style={{ color: DARK }}>d</span> gives you the <em>right</em> ones."
           </h2>
         </Reveal>
         <Reveal delay={0.15}>
@@ -388,12 +351,12 @@ function FeatureSection({ tag, title, body, mockup, reverse }: {
 }) {
   return (
     <div className={`flex flex-col items-center gap-12 py-24 lg:gap-16 ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`}>
-      <Reveal className="flex flex-1 flex-col gap-5">
+      <Reveal className="flex flex-1 flex-col gap-5 lg:max-w-sm">
         <Tag>{tag}</Tag>
         <h3 className="text-3xl sm:text-4xl" style={{ color: DARK, lineHeight: 1.12, letterSpacing: "-0.02em" }}>{title}</h3>
         <p style={{ color: MUTED, lineHeight: 1.7 }}>{body}</p>
       </Reveal>
-      <Reveal className="w-full flex-1" delay={0.15}>
+      <Reveal className="w-full flex-[1.4]" delay={0.15}>
         {mockup}
       </Reveal>
     </div>
@@ -516,86 +479,111 @@ function HowItWorks() {
   );
 }
 
-/* ───── WAITLIST ───── */
+/* ───── PRICING ───── */
 
-function Waitlist({ count, onSignup }: { count: number; onSignup: () => void }) {
-  const [email, setEmail] = useState("");
-  const [done, setDone] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setLoading(true);
-    setError(null);
-    const { error: sbError } = await supabase
-      .from("waitlist")
-      .insert({ email });
-    setLoading(false);
-    if (sbError) {
-      if (sbError.code === "23505") {
-        // unique constraint — email already on the list
-        setDone(true);
-      } else {
-        setError("Something went wrong. Please try again.");
-      }
-    } else {
-      setDone(true);
-      onSignup();
-    }
-  };
+function Pricing() {
+  const tiers: {
+    name: string; price: string; period: string; desc: string;
+    features: string[]; cta: string; highlight?: boolean;
+  }[] = [
+    {
+      name: "Free",
+      price: "$0",
+      period: "/forever",
+      desc: "Try it out, no commitment.",
+      features: [
+        "3 AI queries per day",
+        "1 standard upload",
+        "Partial clause detail in answers",
+        "Public/government standards access only",
+        "1 basic calculator",
+        "Basic compliance chat",
+      ],
+      cta: "Get Started Free",
+    },
+    {
+      name: "Pro",
+      price: "$19.99",
+      period: "/month",
+      desc: "For tradies who want it all.",
+      features: [
+        "Unlimited AI queries",
+        "Unlimited standards uploads",
+        "Full clause detail in every answer",
+        "Voice input & photo/video analysis",
+        "20+ trade calculators with clause references",
+        "7-day free trial, no card required",
+      ],
+      cta: "Start Free Trial",
+      highlight: true,
+    },
+    {
+      name: "Business",
+      price: "$49.99",
+      period: "/seat/month",
+      desc: "For crews and teams.",
+      features: [
+        "Everything in Pro",
+        "Shared team libraries — standards uploaded by one member are searchable by the whole crew",
+        "Per-seat billing, add or remove seats anytime (up to 500 seats)",
+        "Managed via a team owner/admin account",
+      ],
+      cta: "Contact Sales",
+    },
+  ];
 
   return (
-    <section className="relative overflow-hidden py-28 px-6" id="waitlist" style={{ background: "#F2F0ED" }}>
-      <div className="pointer-events-none absolute inset-0 -z-10" style={{ background: `radial-gradient(ellipse 55% 45% at 50% 50%, ${ACCENT}08 0%, transparent 65%)` }} />
-      <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 text-center">
+    <section className="relative overflow-hidden py-28 px-6" id="pricing" style={{ borderTop: `1px solid ${BORDER}` }}>
+      <div className="pointer-events-none absolute inset-0 -z-10" style={{ background: `radial-gradient(ellipse 55% 40% at 50% 20%, ${ACCENT}06 0%, transparent 60%)` }} />
+      <div className="mx-auto max-w-6xl">
         <Reveal>
-          <h2 className="text-3xl sm:text-4xl" style={{ color: DARK, letterSpacing: "-0.02em" }}>Be first to get access.</h2>
+          <div className="mb-14 text-center">
+            <Tag>Pricing</Tag>
+            <h2 className="mt-5 text-3xl sm:text-4xl" style={{ color: DARK, letterSpacing: "-0.02em" }}>Simple, honest pricing.</h2>
+            <p className="mx-auto mt-4 max-w-lg" style={{ color: MUTED, lineHeight: 1.7 }}>
+              Start free. Upgrade when you need unlimited answers and the full set of trade tools.
+            </p>
+          </div>
         </Reveal>
-        <Reveal delay={0.1}>
-          <p style={{ color: MUTED, lineHeight: 1.7 }}>
-            We're onboarding tradies, engineers and students in stages. Join the waitlist and get early access when your invite is ready.
-          </p>
-        </Reveal>
-        <Reveal delay={0.2}>
-          {done ? (
-            <motion.p
-              className="rounded-full px-6 py-3 text-sm"
-              style={{ background: `${ACCENT}10`, color: ACCENT }}
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              You're on the list! We'll be in touch.
-            </motion.p>
-          ) : (
-            <form
-              onSubmit={handleSubmit}
-              className="flex w-full max-w-md flex-col gap-3 sm:flex-row"
-            >
-              <label htmlFor="waitlist-email" className="sr-only">Email address</label>
-              <input
-                id="waitlist-email"
-                name="email"
-                type="email" required placeholder="Enter your email" value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
-                className="flex-1 rounded-full bg-white px-5 py-3 text-sm outline-none transition-shadow focus:shadow-[0_0_0_2px_rgba(108,92,231,0.15)] disabled:opacity-60"
-                style={{ color: DARK, border: `1px solid ${BORDER}` }}
-              />
-              <Btn type="submit" onClick={loading ? undefined : undefined}>
-                {loading ? "Joining…" : <>Join the Waitlist <ArrowRight size={15} /></>}
-              </Btn>
-            </form>
-          )}
-          {error && (
-            <p className="mt-2 text-sm" style={{ color: ACCENT }}>{error}</p>
-          )}
-        </Reveal>
-        <Reveal delay={0.25}>
-          <p className="text-xs" style={{ color: MUTED }}>Join {count.toLocaleString()} others already on the waitlist</p>
-        </Reveal>
+        <div className="grid items-start gap-6 lg:grid-cols-3">
+          {tiers.map((t, i) => (
+            <Reveal key={t.name} delay={i * 0.1}>
+              <div
+                className="relative flex h-full flex-col rounded-2xl bg-white p-8"
+                style={{
+                  border: t.highlight ? `2px solid ${ACCENT}` : `1px solid ${BORDER}`,
+                  boxShadow: t.highlight ? "0 12px 50px rgba(220,38,38,0.12)" : "none",
+                }}
+              >
+                {t.highlight && (
+                  <span
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-3 py-1 text-[11px] uppercase tracking-wide text-white"
+                    style={{ background: ACCENT }}
+                  >
+                    Most Popular
+                  </span>
+                )}
+                <h3 className="text-xl" style={{ color: DARK }}>{t.name}</h3>
+                <p className="mt-1 text-sm" style={{ color: MUTED }}>{t.desc}</p>
+                <div className="mt-6 flex items-baseline gap-1">
+                  <span className="text-4xl" style={{ color: DARK, letterSpacing: "-0.02em" }}>{t.price}</span>
+                  <span className="text-sm" style={{ color: MUTED }}>{t.period}</span>
+                </div>
+                <ul className="mt-6 flex flex-1 flex-col gap-3">
+                  {t.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-sm" style={{ color: DARK, lineHeight: 1.5 }}>
+                      <Check size={16} className="mt-0.5 shrink-0" style={{ color: ACCENT }} />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-8">
+                  <Btn href="https://standaid-9mas.vercel.app" ghost={!t.highlight}>{t.cta}</Btn>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -640,7 +628,7 @@ function FAQs() {
     ["How does the Exam Helper work?", "Upload your standards and StandAId generates mock exam questions and study guides from the actual content. You can also photograph your handwritten working and the AI reviews it and gives feedback — without giving you the answer directly."],
     ["What trade tools are included?", "Volt drop, cable sizing, pipe sizing, fall calculator, stair rise and going, concrete volume calculator and more. New tools are added regularly."],
     ["Is my data private?", "Yes. Your uploaded documents are private to your account and are never used to train AI models or shared with third parties."],
-    ["What happens when I join the waitlist?", "You'll receive an early access invite when your spot is ready. We're onboarding in stages to ensure quality and collect feedback from real tradies and engineers first."],
+    ["How do I get started?", "StandAId is live now. Sign up for free directly in the app — no waitlist. Upgrade to Pro or Business any time from your account."],
   ];
   return (
     <section className="py-28 px-6" id="faqs">
@@ -665,7 +653,7 @@ function FAQs() {
 
 function Footer() {
   return (
-    <footer className="py-16 px-6" style={{ borderTop: `1px solid ${BORDER}` }}>
+    <footer className="py-16 px-6" style={{ borderTop: `1px solid ${BORDER}`, background: "#FFFFFF" }}>
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-8 md:flex-row md:items-start md:justify-between">
         <div className="flex flex-col items-center gap-2 md:items-start">
           <StandAIdLogo className="text-xl" />
@@ -1026,15 +1014,6 @@ function DisclaimerPage() {
 /* ───── APP ───── */
 
 export default function App() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    supabase
-      .from("waitlist")
-      .select("*", { count: "exact", head: true })
-      .then(({ count: c }) => { if (c !== null) setCount(548 + c); });
-  }, []);
-
   const homePage = (
     <div className="min-h-screen relative" style={{ background: `linear-gradient(to right, #FFFFFF, #FFF5F5)`, fontFamily: "'Inter', sans-serif" }}>
       {/* Noise texture overlay */}
@@ -1056,13 +1035,13 @@ export default function App() {
         }}
       />
       <Nav />
-      <Hero count={count} />
+      <Hero />
       <Statement />
       <Marquee />
       <Features />
       <Bento />
       <HowItWorks />
-      <Waitlist count={count} onSignup={() => setCount((c) => c + 1)} />
+      <Pricing />
       <FAQs />
       <Footer />
     </div>
