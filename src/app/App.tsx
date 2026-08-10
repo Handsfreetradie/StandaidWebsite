@@ -135,7 +135,7 @@ function Nav() {
             >{l}</a>
           ))}
         </div>
-        <div className="hidden md:block"><Btn href="https://standaid-9mas.vercel.app">Get Started</Btn></div>
+        <div className="hidden md:block"><Btn href="https://app.standaid.ai">Get Started</Btn></div>
         <button className="md:hidden" style={{ color: DARK }} onClick={() => setOpen(!open)}>
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -145,7 +145,7 @@ function Nav() {
           {links.map((l) => (
             <a key={l} href={`#${l.toLowerCase().replace(/ /g, "-")}`} className="text-sm" style={{ color: MUTED }} onClick={() => setOpen(false)}>{l}</a>
           ))}
-          <Btn href="https://standaid-9mas.vercel.app" onClick={() => setOpen(false)}>Get Started</Btn>
+          <Btn href="https://app.standaid.ai" onClick={() => setOpen(false)}>Get Started</Btn>
         </div>
       )}
     </motion.nav>
@@ -278,7 +278,7 @@ function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.6 }}
       >
-        <Btn href="https://standaid-9mas.vercel.app">Get Started <ArrowRight size={15} /></Btn>
+        <Btn href="https://app.standaid.ai">Get Started <ArrowRight size={15} /></Btn>
         <Btn ghost href="#how-it-works">See how it works</Btn>
       </motion.div>
 
@@ -578,7 +578,7 @@ function Pricing() {
                   ))}
                 </ul>
                 <div className="mt-8">
-                  <Btn href="https://standaid-9mas.vercel.app" ghost={!t.highlight}>{t.cta}</Btn>
+                  <Btn href="https://app.standaid.ai" ghost={!t.highlight}>{t.cta}</Btn>
                 </div>
               </div>
             </Reveal>
