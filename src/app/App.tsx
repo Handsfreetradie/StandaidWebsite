@@ -482,14 +482,21 @@ function HowItWorks() {
 /* ───── PRICING ───── */
 
 function Pricing() {
+  const [annual, setAnnual] = useState(false);
+
   const tiers: {
-    name: string; price: string; period: string; desc: string;
+    name: string;
+    monthlyPrice: string; monthlyPeriod: string;
+    annualPrice: string; annualPeriod: string;
+    desc: string;
     features: string[]; cta: string; highlight?: boolean;
   }[] = [
     {
       name: "Free",
-      price: "$0",
-      period: "/forever",
+      monthlyPrice: "$0",
+      monthlyPeriod: "/forever",
+      annualPrice: "$0",
+      annualPeriod: "/forever",
       desc: "Try it out, no commitment.",
       features: [
         "5 AI queries per day",
@@ -502,8 +509,10 @@ function Pricing() {
     },
     {
       name: "Pro",
-      price: "$19.99",
-      period: "/month",
+      monthlyPrice: "$9.99",
+      monthlyPeriod: "/month",
+      annualPrice: "$89",
+      annualPeriod: "/year",
       desc: "For tradies who want it all.",
       features: [
         "Unlimited AI queries",
@@ -518,14 +527,16 @@ function Pricing() {
     },
     {
       name: "Business",
-      price: "$49.99",
-      period: "/month + $14.99/seat",
+      monthlyPrice: "$49.99",
+      monthlyPeriod: "/month + $5/seat",
+      annualPrice: "$449",
+      annualPeriod: "/year + $45/seat",
       desc: "For crews and teams.",
       features: [
         "Everything in Pro",
+        "Flat-rate single login to get your business started",
+        "Add team members anytime with per-seat billing",
         "Shared team libraries — standards uploaded by one member are searchable by the whole crew (if licensing allows)",
-        "Per-seat billing, add or remove seats anytime",
-        "Seat count depends on standards licensing",
         "Managed via a team owner/admin account",
       ],
       cta: "Contact Sales",
@@ -543,6 +554,27 @@ function Pricing() {
             <p className="mx-auto mt-4 max-w-lg" style={{ color: MUTED, lineHeight: 1.7 }}>
               Start free. Upgrade when you need unlimited answers and the full set of trade tools.
             </p>
+          </div>
+        </Reveal>
+        <Reveal>
+          <div className="mb-10 flex items-center justify-center gap-3">
+            <span className="text-sm" style={{ color: annual ? MUTED : DARK }}>Monthly</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={annual}
+              onClick={() => setAnnual((v) => !v)}
+              className="relative h-7 w-12 shrink-0 cursor-pointer appearance-none rounded-full border-0 p-0 transition-colors"
+              style={{ background: annual ? ACCENT : BORDER, boxSizing: "border-box" }}
+            >
+              <span
+                className="absolute left-0.5 top-0.5 h-6 w-6 rounded-full bg-white transition-transform"
+                style={{ transform: annual ? "translateX(20px)" : "translateX(0px)" }}
+              />
+            </button>
+            <span className="text-sm" style={{ color: annual ? DARK : MUTED }}>
+              Annual <span style={{ color: ACCENT }}>· Save ~25%</span>
+            </span>
           </div>
         </Reveal>
         <div className="grid items-start gap-6 lg:grid-cols-3">
@@ -566,8 +598,12 @@ function Pricing() {
                 <h3 className="text-xl" style={{ color: DARK }}>{t.name}</h3>
                 <p className="mt-1 text-sm" style={{ color: MUTED }}>{t.desc}</p>
                 <div className="mt-6 flex items-baseline gap-1">
-                  <span className="text-4xl" style={{ color: DARK, letterSpacing: "-0.02em" }}>{t.price}</span>
-                  <span className="text-sm" style={{ color: MUTED }}>{t.period}</span>
+                  <span className="text-4xl" style={{ color: DARK, letterSpacing: "-0.02em" }}>
+                    {annual ? t.annualPrice : t.monthlyPrice}
+                  </span>
+                  <span className="text-sm" style={{ color: MUTED }}>
+                    {annual ? t.annualPeriod : t.monthlyPeriod}
+                  </span>
                 </div>
                 <ul className="mt-6 flex flex-1 flex-col gap-3">
                   {t.features.map((f) => (
