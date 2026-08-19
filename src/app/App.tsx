@@ -525,22 +525,6 @@ function Pricing() {
       cta: "Start Free Trial",
       highlight: true,
     },
-    {
-      name: "Business",
-      monthlyPrice: "$49.99",
-      monthlyPeriod: "/month + $5/seat",
-      annualPrice: "$449",
-      annualPeriod: "/year + $45/seat",
-      desc: "For crews and teams.",
-      features: [
-        "Everything in Pro",
-        "Flat-rate single login to get your business started",
-        "Add team members anytime with per-seat billing",
-        "Shared team libraries — standards uploaded by one member are searchable by the whole crew (if licensing allows)",
-        "Managed via a team owner/admin account",
-      ],
-      cta: "Contact Sales",
-    },
   ];
 
   return (
@@ -577,7 +561,7 @@ function Pricing() {
             </span>
           </div>
         </Reveal>
-        <div className="grid items-start gap-6 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-2xl items-start gap-6 sm:grid-cols-2">
           {tiers.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.1}>
               <div
@@ -664,7 +648,7 @@ function FAQs() {
     ["How does the Exam Helper work?", "Upload your standards and StandAId generates mock exam questions and study guides from the actual content. You can also photograph your handwritten working and the AI reviews it and gives feedback — without giving you the answer directly."],
     ["What trade tools are included?", "Volt drop, cable sizing, pipe sizing, fall calculator, stair rise and going, concrete volume calculator and more. New tools are added regularly."],
     ["Is my data private?", "Yes. Your uploaded documents are private to your account and are never used to train AI models or shared with third parties."],
-    ["How do I get started?", "StandAId is live now. Sign up for free directly in the app — no waitlist. Upgrade to Pro or Business any time from your account."],
+    ["How do I get started?", "StandAId is live now. Sign up for free directly in the app — no waitlist. Upgrade to Pro any time from your account."],
   ];
   return (
     <section className="py-28 px-6" id="faqs">
