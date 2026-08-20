@@ -564,9 +564,8 @@ function Pricing() {
         "Full clause detail in every answer",
         "Voice input & photo/video analysis",
         "20+ trade calculators with clause references",
-        "7-day free trial, no card required",
       ],
-      cta: "Start Free Trial",
+      cta: "Get Pro",
       highlight: true,
     },
   ];
