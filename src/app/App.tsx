@@ -154,8 +154,8 @@ function Nav() {
 
 /* ───── HERO ───── */
 
-const HERO_QUESTION = "What is the minimum main earth conductor size?";
-const HERO_ANSWER = "Clause 5.3.3.2, AS/NZS 3000:2018 — The main earthing conductor size is determined from Table 5.1 based on your largest active conductor. The minimum is 4 mm² copper, and it need not exceed 120 mm².";
+const HERO_QUESTION = "What's the minimum ceiling height for a habitable room?";
+const HERO_ANSWER = "NCC 2022, Volume Two, Part H1D5 — A habitable room must have a ceiling height of at least 2400 mm, measured from the finished floor to the finished ceiling.";
 
 function TypingCursor() {
   return (
@@ -184,7 +184,7 @@ function HeroChatMockup() {
         <span className="h-2.5 w-2.5 rounded-full" style={{ background: ACCENT }} />
         <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />
         <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />
-        <span className="ml-3 text-xs" style={{ color: MUTED }}>AS/NZS 3000:2018 — Wiring Rules</span>
+        <span className="ml-3 text-xs" style={{ color: MUTED }}>NCC 2022 — Building Code of Australia</span>
       </div>
       <div className="flex flex-col gap-4 p-6" style={{ minHeight: 160 }}>
         <AnimatePresence>
@@ -644,8 +644,9 @@ function FAQs() {
   const [open, setOpen] = useState<number | null>(null);
   const qs: [string, string][] = [
     ["What makes StandAId different from ChatGPT?", "StandAId only answers from the standards you upload. ChatGPT and other AI tools draw from the internet and can hallucinate incorrect clause numbers, outdated editions or completely fabricated references. StandAId never does."],
-    ["What standards can I upload?", "Any standard you have purchased or own. AS/NZS, NCC, AIRAH guides, manufacturer specs, company procedures — if you own it, you can upload it."],
-    ["How does the Exam Helper work?", "Upload your standards and StandAId generates mock exam questions and study guides from the actual content. You can also photograph your handwritten working and the AI reviews it and gives feedback — without giving you the answer directly."],
+    ["What standards can I upload?", "Any standard you have purchased or own, with one exception — see below. NCC, AIRAH guides, manufacturer specs, company procedures and more: if you own it, you can upload it and get full AI answers."],
+    ["Can I use StandAId's AI with AS/NZS standards?", "No. Standards Australia prohibits any use of AI at all with their standards — their licence terms don't allow AS/NZS content to be uploaded, indexed or processed by any AI or LLM system, including StandAId's. This isn't a StandAId limitation; it's a restriction Standards Australia places on all AI products. Every other feature — trade calculators, exam prep on your other documents, and AI answers from NCC, AIRAH guides, manufacturer specs and company procedures — works as normal."],
+    ["How does the Exam Helper work?", "Upload your standards (excluding AS/NZS — see above) and StandAId generates mock exam questions and study guides from the actual content. You can also photograph your handwritten working and the AI reviews it and gives feedback — without ever giving you the answer directly."],
     ["What trade tools are included?", "Volt drop, cable sizing, pipe sizing, fall calculator, stair rise and going, concrete volume calculator and more. New tools are added regularly."],
     ["Is my data private?", "Yes. Your uploaded documents are private to your account and are never used to train AI models or shared with third parties."],
     ["How do I get started?", "StandAId is live now. Sign up for free directly in the app — no waitlist. Upgrade to Pro any time from your account."],
@@ -782,6 +783,7 @@ function TermsPage() {
       <LegalSection heading="3. Your uploads and copyright">
         <p>You may only upload documents you are legally entitled to use — for example, a standard you have purchased or hold a valid licence or subscription for. By uploading, you confirm this and accept responsibility for complying with the publisher's terms.</p>
         <p className="mt-2">Your uploaded documents are stored privately against your account. They are never shared with, or made searchable by, other users — even if another user owns the same standard, they cannot access, view or search your copy. This reflects the licensing terms Standards Australia and other publishers place on their documents. Processing (text extraction, indexing and answering your questions) happens solely to provide the service to you.</p>
+        <p className="mt-2" style={{ color: DARK }}>AS/NZS standards cannot be uploaded to or processed by StandAId. Standards Australia prohibits any use of AI at all with their standards: their licence terms (clause 3.3) do not permit AS/NZS content to be uploaded, transmitted, ingested, indexed, embedded, tokenised or otherwise used with any artificial intelligence, machine learning or large language model system without their prior written permission. StandAId does not have that permission, so this restriction applies in full. All other standards and documents you own are unaffected.</p>
       </LegalSection>
 
       <LegalSection heading="4. Your account">
@@ -822,10 +824,11 @@ function PrivacyPage() {
 
       <LegalSection heading="3. AI processing">
         <p>To generate answers, relevant excerpts of your documents, your questions and any photos you submit are processed by our AI providers (Anthropic and OpenAI) under their API terms, which do not permit them to train their models on this data. Voice input is transcribed on your device by your browser, not on our servers.</p>
+        <p className="mt-2" style={{ color: DARK }}>AS/NZS standards are excluded from this processing entirely. Standards Australia prohibits any use of AI at all with their standards, so AS/NZS content is never uploaded, indexed or sent to any AI provider by StandAId.</p>
       </LegalSection>
 
       <LegalSection heading="4. Where it's stored">
-        <p>Data is stored with our hosting provider (Supabase) in access-controlled databases and private file storage. Documents are served only to your logged-in account via short-lived links, and are never accessible to any other user — this reflects Standards Australia's licensing requirements as well as our own security design. We take reasonable steps to protect your information in line with the Privacy Act 1988 (Cth) and the Australian Privacy Principles.</p>
+        <p>Data is stored with our hosting provider (Supabase) in access-controlled databases and private file storage. Documents are served only to your logged-in account via short-lived links, and are never accessible to any other user — this reflects publishers' licensing requirements as well as our own security design. We take reasonable steps to protect your information in line with the Privacy Act 1988 (Cth) and the Australian Privacy Principles.</p>
       </LegalSection>
 
       <LegalSection heading="5. Retention and deletion">

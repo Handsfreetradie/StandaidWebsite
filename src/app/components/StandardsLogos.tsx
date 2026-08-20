@@ -11,35 +11,6 @@ function LogoWrap({ children }: { children: React.ReactNode }) {
   );
 }
 
-/* ─── Standards Australia ─── */
-export function SALogo() {
-  return (
-    <LogoWrap>
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <circle cx="16" cy="16" r="14.5" stroke="#1D1D1F" strokeWidth="1.2" />
-        <path d="M16 4.5V16L24.5 23" stroke="#1D1D1F" strokeWidth="1.2" strokeLinecap="round" />
-        <path d="M10 20.5C10 20.5 12 23 16 23C20 23 22 20.5 22 20.5" stroke="#1D1D1F" strokeWidth="1.2" strokeLinecap="round" />
-      </svg>
-      <div className="flex flex-col">
-        <span className="text-[13px] text-[#1D1D1F]" style={{ letterSpacing: "0.01em" }}>Standards</span>
-        <span className="text-[10px] text-[#86868B] -mt-0.5" style={{ letterSpacing: "0.05em" }}>AUSTRALIA</span>
-      </div>
-    </LogoWrap>
-  );
-}
-
-/* ─── AS/NZS ─── */
-export function ASNZSLogo() {
-  return (
-    <LogoWrap>
-      <svg width="36" height="28" viewBox="0 0 36 28" fill="none">
-        <rect x="1" y="1" width="34" height="26" rx="4" stroke="#1D1D1F" strokeWidth="1.2" />
-        <text x="18" y="18" textAnchor="middle" fill="#1D1D1F" fontSize="10" fontWeight="600" fontFamily="Inter, sans-serif">AS/NZS</text>
-      </svg>
-    </LogoWrap>
-  );
-}
-
 /* ─── NCC (National Construction Code) ─── */
 export function NCCLogo() {
   return (
@@ -114,4 +85,4 @@ export function HIALogo() {
   );
 }
 
-export const allLogos = [SALogo, ASNZSLogo, NCCLogo, AIRAHLogo, MEALogo, MPAQLogo, HIALogo];
+export const allLogos = [NCCLogo, AIRAHLogo, MEALogo, MPAQLogo, HIALogo];
