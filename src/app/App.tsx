@@ -371,6 +371,36 @@ function ScreenshotMock({ src, alt, className = "" }: { src: string; alt: string
   );
 }
 
+function StaticChatMockup({ header, question, answer }: { header: string; question: string; answer: string }) {
+  return (
+    <div
+      className="mx-auto w-full overflow-hidden rounded-2xl bg-white shadow-[0_2px_20px_rgba(0,0,0,0.06)]"
+      style={{ border: `1px solid ${BORDER}` }}
+    >
+      <div className="flex items-center gap-2 px-5 py-3" style={{ borderBottom: `1px solid ${BORDER}` }}>
+        <span className="h-2.5 w-2.5 rounded-full" style={{ background: ACCENT }} />
+        <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />
+        <span className="h-2.5 w-2.5 rounded-full bg-gray-200" />
+        <span className="ml-3 text-xs" style={{ color: MUTED }}>{header}</span>
+      </div>
+      <div className="flex flex-col gap-4 p-6">
+        <div
+          className="ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm px-4 py-2.5 text-sm text-white text-left"
+          style={{ background: ACCENT }}
+        >
+          {question}
+        </div>
+        <div
+          className="max-w-[85%] rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm text-left"
+          style={{ background: BG, color: DARK }}
+        >
+          {answer}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Features() {
   return (
     <section className="relative overflow-hidden px-6" id="features">
@@ -382,7 +412,13 @@ function Features() {
           tag="Standards AI"
           title="Ask your standards anything."
           body="Upload the standards you've purchased. StandAId extracts and chunks every clause, table and diagram. Ask questions by text or voice and get precise answers with clause references — sourced only from your documents. No internet. No guessing."
-          mockup={<ScreenshotMock src="/screenshots/chat-answer.png" alt="StandAId chat answering a real earth fault-loop impedance question, with clause references" />}
+          mockup={
+            <StaticChatMockup
+              header="Cable Datasheet — 4mm² XLPE"
+              question="What's the minimum bend radius for this cable?"
+              answer="Per the manufacturer's datasheet you uploaded — the minimum bend radius is 4× the cable's overall diameter for a fixed installation, or 6× if it will be flexed repeatedly."
+            />
+          }
         />
 
         <FeatureSection
