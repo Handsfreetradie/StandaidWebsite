@@ -9,6 +9,14 @@ import {
 import { StandAIdLogo } from "./components/StandAIdLogo";
 import { allLogos } from "./components/StandardsLogos";
 
+function TikTokIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+    </svg>
+  );
+}
+
 /* ───── Kinso-matched palette ───── */
 const ACCENT = "#DC2626"; // Changed from lavender to red
 const BG = "#F7F5F2";
@@ -741,6 +749,7 @@ function Footer() {
           {[
             { Icon: Instagram, href: "https://www.instagram.com/standaid.ai/" },
             { Icon: Facebook, href: "https://www.facebook.com/share/1EojQSpcoh/?mibextid=wwXIfr" },
+            { Icon: TikTokIcon, href: "https://www.tiktok.com/@standaid" },
           ].map(({ Icon, href }, i) => (
             <a key={i} href={href} target="_blank" rel="noopener noreferrer" style={{ color: MUTED }} className="transition-colors hover:opacity-70"><Icon size={18} /></a>
           ))}
